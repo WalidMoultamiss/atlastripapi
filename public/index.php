@@ -31,7 +31,7 @@ $app->cors();
 
 Route::post('/login', [UserController::class, 'index']);
 Route::post('/register', function (Request $request) {
-  $middleware = new middleware();
+  // $middleware = new middleware();
   $user = $request->json();
 
   $rules = [
@@ -42,24 +42,24 @@ Route::post('/register', function (Request $request) {
     "phone" => "required|integer|min:9"
   ];
 
-  $middle = $middleware->validate($user, $rules);
+  // $middle = $middleware->validate($user, $rules);
 
   if (!!count(Users::findBy(['email' => $user->email], ["email"]))) {
     return Response::json(["message" => "Email must be unique, already taken"]);
   }
 
-  if ($middle->error) {
-    Response::json($middle);
-  } else {
-    $password = password_hash($user->password, PASSWORD_DEFAULT);
-    $user->password = $password;
-    $id = Users::create($user);
-    Coords::create((object)["user_id" => $id]);
-    unset($user->password);
-    $user->id = $id;
-    $response = Auth::create($user);
-    Response::json($response);
-  }
+  // if ($middle->error) {
+  //   Response::json($middle);
+  // } else {
+  $password = password_hash($user->password, PASSWORD_DEFAULT);
+  $user->password = $password;
+  $id = Users::create($user);
+  Coords::create((object)["user_id" => $id]);
+  unset($user->password);
+  $user->id = $id;
+  $response = Auth::create($user);
+  Response::json($response);
+  // }
 });
 Route::post('/distance', [UserController::class, 'show']);
 Route::post('/auth', [AuthController::class, 'index']);
