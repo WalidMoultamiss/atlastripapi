@@ -7,7 +7,7 @@ use App\Http\Request;
 use App\Http\Response;
 use App\Routing\Route;
 
-require __DIR__ . '/../vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../");
 $dotenv->load();
