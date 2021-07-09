@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\config\Database;
+use App\\config\\Database;
 use App\Http\Response;
 
 class Model
