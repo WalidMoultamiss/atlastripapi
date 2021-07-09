@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use App\config\Database;
+use App\config\Database;
 use App\Http\Response;
 
 class Model
@@ -34,19 +34,18 @@ class Model
 
   public static function create(object $qq)
   {
-    $db = new \App\Config\Database();
-    // $db = new Database();
+    $db = new Database();
     $dbh = $db->connect();
-    $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
+    // $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
 
-    $columns = implode(',', array_keys((array)$qq));
-    $values = implode(',', array_map(function ($val) {
-      return is_string($val) ? "'$val'" : $val;
-    }, array_values((array)$qq)));
-    $query = "INSERT INTO $table ($columns) VALUES ($values);";
-    $sth = $dbh->prepare($query);
-    $sth->execute();
-    return  $dbh->lastInsertId();
+    // $columns = implode(',', array_keys((array)$qq));
+    // $values = implode(',', array_map(function ($val) {
+    //   return is_string($val) ? "'$val'" : $val;
+    // }, array_values((array)$qq)));
+    // $query = "INSERT INTO $table ($columns) VALUES ($values);";
+    // $sth = $dbh->prepare($query);
+    // $sth->execute();
+    // return  $dbh->lastInsertId();
   }
 
   public static function delete(int $id)
