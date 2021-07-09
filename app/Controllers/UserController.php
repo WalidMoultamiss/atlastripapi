@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Http\Middleware\Auth;
 use App\Http\Request;
 use App\Http\Response;
 
@@ -17,10 +16,11 @@ class UserController extends Controller
    */
   public static function index(Request $request)
   {
-    $middleware = new middleware();
+    $middleware = new \App\Http\Middleware\Middle();
+
     $user = $request->json();
 
-    $userFind = Users::findBy(['email' => $user->email]);
+    $userFind = \App\Models\Users::findBy(['email' => $user->email]);
 
     if (!count($userFind)) {
       return Response::json(["message" => "Email Not Found"]);
@@ -31,13 +31,13 @@ class UserController extends Controller
       "password" => "required",
     ];
 
-    $middle = $middleware->validate($user, $rules);
+    $middle = (object) $middleware->validate($user, $rules);
     if ($middle->error) {
       Response::json($middle);
     } else {
       if (password_hash($middle->password, $userFind[0]['password'])) {
         unset($userFind[0]['password']);
-        $response = Auth::create($userFind[0]);
+        $response = \App\Http\Middleware\Auth::create($userFind[0]);
         $response->dd = $userFind[0];
         Response::json($response);
       } else {
@@ -53,7 +53,6 @@ class UserController extends Controller
    */
   public static function store(Request $request)
   {
-    $dbh = (new \App\Config\Database())->connect();
     $middleware = new \App\Http\Middleware\Middle();
     $user = $request->json();
 
@@ -65,7 +64,7 @@ class UserController extends Controller
       "phone" => "required|integer|min:9"
     ];
 
-    $middle = $middleware->validate($user, $rules);
+    $middle = (object) $middleware->validate($user, $rules);
 
     if ($middle->error) {
       Response::json($middle);
@@ -94,27 +93,7 @@ class UserController extends Controller
   {
     $coords = $request->json();
     $sql = "SELECT user_id FROM coords WHERE ( 6371 * ACOS(COS(RADIANS($coords->lan)) * COS(RADIANS(lan)) * COS(RADIANS(lon) - RADIANS($coords->lon)) + SIN(RADIANS($coords->lan)) * SIN(RADIANS(lan)))) < 2;";
-    $response = Coords::showAllByquery($sql);
+    $response = \App\Models\Coords::showAllByquery($sql);
     Response::json($response);
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Http\Request  $request
-   */
-  public static function update(Request $request)
-  {
-    //
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \Http\Request  $request
-   */
-  public static function destroy(Request $request)
-  {
-    //
   }
 }
