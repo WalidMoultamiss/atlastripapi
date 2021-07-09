@@ -31,7 +31,9 @@ class UserController extends Controller
       "password" => "required",
     ];
 
+    print_r($userFind);
     $middle = (object) $middleware->validate($user, $rules);
+    print_r($middle);
     if ($middle->error) {
       Response::json($middle);
     } else {
