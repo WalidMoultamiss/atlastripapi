@@ -86,12 +86,14 @@ class UserController extends Controller
     // }
     $password = password_hash($user->password, PASSWORD_DEFAULT);
     $user->password = $password;
-    $id = Users::create($user);
-    Coords::create((object)["user_id" => $id]);
-    unset($user->password);
-    $user->id = $id;
-    $response = Auth::create($user);
-    Response::json($response);
+    $dd = new Users();
+    $dd->create($user);
+    // $id = Users::create($user);
+    // Coords::create((object)["user_id" => $id]);
+    // unset($user->password);
+    // $user->id = $id;
+    // $response = Auth::create($user);
+    // Response::json($response);
     Response::json(['hello' => 'world']);
   }
 
