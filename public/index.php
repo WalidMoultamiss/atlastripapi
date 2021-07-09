@@ -25,11 +25,13 @@ $app->cors();
 | Here is where you can register API routes for your application. 
 |
 */
+Route::get('/hello', function (Request $request) {
+  Response::json(['hello' => 'atlastrip']);
+});
 
-// Route::post('/login', [UserController::class, 'index']);
+Route::post('/login', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'store']);
-// Route::post('/distance', [UserController::class, 'show']);
-// Route::post('/auth', [AuthController::class, 'index']);
-Route::get('/hello', [Hello::class, 'index']);
+Route::post('/distance', [UserController::class, 'show']);
+Route::post('/auth', [AuthController::class, 'index']);
 
 $app->run();
