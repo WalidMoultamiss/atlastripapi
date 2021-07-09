@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Http\Middleware\Auth;
-use App\Http\middleware\middleware;
 use App\Http\Request;
 use App\Http\Response;
 
@@ -55,8 +54,7 @@ class UserController extends Controller
   public static function store(Request $request)
   {
     $dbh = (new \App\Config\Database())->connect();
-    $middleware = new \App\Http\middleware\Middle();
-    exit;
+    $middleware = new \App\Http\Middleware\Middle();
     $user = $request->json();
 
     $rules = [
