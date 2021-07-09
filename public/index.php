@@ -2,6 +2,7 @@
 
 use App\Application;
 use App\Controllers\AuthController;
+use App\Controllers\Hello;
 use App\Controllers\UserController;
 use App\Http\Request;
 use App\Http\Response;
@@ -30,9 +31,6 @@ Route::post('/register', [UserController::class, 'store']);
 Route::post('/distance', [UserController::class, 'show']);
 Route::post('/auth', [AuthController::class, 'index']);
 
-
-Route::get('/hello', function (Request $request) {
-  Response::json(['hello' => 'atlastrip']);
-});
+Route::get('/hello', [Hello::class, 'index']);
 
 $app->run();
