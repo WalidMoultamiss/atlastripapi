@@ -54,7 +54,9 @@ class UserController extends Controller
    */
   public static function store(Request $request)
   {
+    $dbh = (new \App\Config\Database())->connect();
     $middleware = new \App\Http\middleware\middleware();
+    exit;
     $user = $request->json();
 
     $rules = [
