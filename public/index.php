@@ -31,7 +31,7 @@ Route::post('/distance', [UserController::class, 'show']);
 Route::post('/auth', [AuthController::class, 'index']);
 
 
-Route::get('/', function (Request $request) {
+Route::get('/hello', function (Request $request) {
   Response::json(['hello' => 'atlastrip']);
 });
 
