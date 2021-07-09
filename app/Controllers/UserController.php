@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use \App\Http\Middleware\Auth;
-use \App\Http\middleware\middleware;
-use \App\Http\Request;
-use \App\Http\Response;
-use \App\Models\Coords;
-use \App\Models\Users;
+use App\Http\Middleware\Auth;
+use App\Http\middleware\middleware;
+use App\Http\Request;
+use App\Http\Response;
+use App\Models\Coords;
+use App\Models\Users;
 
 class UserController extends Controller
 {
