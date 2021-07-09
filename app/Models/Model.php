@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Response;
-
 class Model
 {
 
@@ -15,8 +13,8 @@ class Model
   public static function all()
   {
     $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
+    $dbh = (new \App\Config\Database())->connect();
 
-    $dbh = Database::connect();
     $sth = $dbh->prepare("SELECT * FROM $table;");
     $sth->execute();
     return $sth->fetchAll();
@@ -25,7 +23,8 @@ class Model
 
   public static function showAllByquery($q)
   {
-    $dbh = Database::connect();
+    $dbh = (new \App\Config\Database())->connect();
+
     $sth = $dbh->prepare($q);
     $sth->execute();
     return $sth->fetchAll();
@@ -33,10 +32,9 @@ class Model
 
   public static function create(object $qq)
   {
-    $db = new \App\Config\Database();
-    $dbh = $db->connect();
-
+    $dbh = (new \App\Config\Database())->connect();
     $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
+
     $columns = implode(',', array_keys((array)$qq));
     $values = implode(',', array_map(function ($val) {
       return is_string($val) ? "'$val'" : $val;
@@ -51,7 +49,8 @@ class Model
   {
     $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
 
-    $dbh = Database::connect();
+    $dbh = (new \App\Config\Database())->connect();
+
     $dbh->prepare("DELETE FROM $table where id = ?;")->execute([$id]);
   }
 
@@ -59,7 +58,8 @@ class Model
   {
     $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
 
-    $dbh = Database::connect();
+    $dbh = (new \App\Config\Database())->connect();
+
     $sth = $dbh->prepare("SELECT * FROM $table WHERE id = ?;");
     $sth->execute([$id]);
     return $sth->fetchAll();
@@ -69,7 +69,8 @@ class Model
   {
     $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
 
-    $dbh = Database::connect();
+    $dbh = (new \App\Config\Database())->connect();
+
     $value = (array) ($qq);
 
     $values = implode(',', array_map(
@@ -90,7 +91,8 @@ class Model
   {
     $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
 
-    $dbh = Database::connect();
+    $dbh = (new \App\Config\Database())->connect();
+
     $cols = empty($colFilter) ? "*" : implode(',', $colFilter);
     $condition = substr(array_reduce(array_keys($colVal), function ($acc, $cur) {
       return $acc = $acc . "$cur = ?,";

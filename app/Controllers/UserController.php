@@ -6,8 +6,7 @@ use App\Http\Middleware\Auth;
 use App\Http\middleware\middleware;
 use App\Http\Request;
 use App\Http\Response;
-use App\Models\Coords;
-use App\Models\Users;
+
 
 class UserController extends Controller
 {
@@ -55,46 +54,35 @@ class UserController extends Controller
    */
   public static function store(Request $request)
   {
-    // $middleware = new middleware();
+    $middleware = new \App\Http\middleware\middleware();
     $user = $request->json();
 
-    // $rules = [
-    //   "first_name" => "required|min:3|max:25",
-    //   "last_name" => "required|min:3|max:25",
-    //   "email" => "required|email",
-    //   "password" => "required",
-    //   "phone" => "required|integer|min:9"
-    // ];
+    $rules = [
+      "first_name" => "required|min:3|max:25",
+      "last_name" => "required|min:3|max:25",
+      "email" => "required|email",
+      "password" => "required",
+      "phone" => "required|integer|min:9"
+    ];
 
-    // $middle = $middleware->validate($user, $rules);
+    $middle = $middleware->validate($user, $rules);
 
-    // if (!!count(Users::findBy(['email' => $user->email], ["email"]))) {
-    //   return Response::json(["message" => "Email must be unique, already taken"]);
-    // }
-
-    // if ($middle->error) {
-    //   Response::json($middle);
-    // } else {
-    //   $password = password_hash($user->password, PASSWORD_DEFAULT);
-    //   $user->password = $password;
-    //   $id = Users::create($user);
-    //   Coords::create((object)["user_id" => $id]);
-    //   unset($user->password);
-    //   $user->id = $id;
-    //   $response = Auth::create($user);
-    //   Response::json($response);
-    // }
-    $password = password_hash($user->password, PASSWORD_DEFAULT);
-    $user->password = $password;
-    $dd = new Users();
-    $dd->create($user);
-    // $id = Users::create($user);
-    // Coords::create((object)["user_id" => $id]);
-    // unset($user->password);
-    // $user->id = $id;
-    // $response = Auth::create($user);
-    // Response::json($response);
-    Response::json(['hello' => 'world']);
+    if ($middle->error) {
+      Response::json($middle);
+    } else {
+      if (!!count(\App\Models\Users::findBy(['email' => $user->email], ["email"]))) {
+        return Response::json(["message" => "Email must be unique, already taken"]);
+      } else {
+        $password = password_hash($user->password, PASSWORD_DEFAULT);
+        $user->password = $password;
+        $id = \App\Models\Users::create($user);
+        \App\Models\Coords::create((object)["user_id" => $id]);
+        unset($user->password);
+        $user->id = $id;
+        $response = \App\Http\Middleware\Auth::create($user);
+        Response::json($response);
+      }
+    }
   }
 
   /**
