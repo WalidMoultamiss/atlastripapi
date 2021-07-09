@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\middleware;
+namespace App\Http\Middleware;
 
 
 use Countable;
 
 
-class middleware
+class Middle
 {
   /**
    * The message to be applied to the data.
