@@ -17,14 +17,8 @@ class UserController extends Controller
   public static function index(Request $request)
   {
     $middleware = new \App\Http\Middleware\Middle();
-
     $user = $request->json();
-
     $userFind = \App\Models\Users::findBy(['email' => $user->email]);
-
-    if (!count($userFind)) {
-      return Response::json(["message" => "Email Not Found"]);
-    }
 
     $rules = [
       "email" => "required|email",
@@ -34,16 +28,21 @@ class UserController extends Controller
     print_r($userFind);
     $middle = (object) $middleware->validate($user, $rules);
     print_r($middle);
+
     if ($middle->error) {
       Response::json($middle);
     } else {
-      if (password_hash($middle->password, $userFind[0]['password'])) {
-        unset($userFind[0]['password']);
-        $response = \App\Http\Middleware\Auth::create($userFind[0]);
-        $response->dd = $userFind[0];
-        Response::json($response);
+      if (!count($userFind)) {
+        return Response::json(["message" => "Email Not Found"]);
       } else {
-        Response::json(["message" => "password incorrect"]);
+        if (password_hash($middle->password, $userFind[0]['password'])) {
+          unset($userFind[0]['password']);
+          $response = \App\Http\Middleware\Auth::create($userFind[0]);
+          $response->dd = $userFind[0];
+          Response::json($response);
+        } else {
+          Response::json(["message" => "password incorrect"]);
+        }
       }
     }
   }
