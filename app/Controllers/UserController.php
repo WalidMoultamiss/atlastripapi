@@ -56,7 +56,7 @@ class UserController extends Controller
   public static function store(Request $request)
   {
     // $middleware = new middleware();
-    // $user = $request->json();
+    $user = $request->json();
 
     // $rules = [
     //   "first_name" => "required|min:3|max:25",
@@ -84,6 +84,14 @@ class UserController extends Controller
     //   $response = Auth::create($user);
     //   Response::json($response);
     // }
+    $password = password_hash($user->password, PASSWORD_DEFAULT);
+    $user->password = $password;
+    $id = Users::create($user);
+    Coords::create((object)["user_id" => $id]);
+    unset($user->password);
+    $user->id = $id;
+    $response = Auth::create($user);
+    Response::json($response);
     Response::json(['hello' => 'world']);
   }
 
