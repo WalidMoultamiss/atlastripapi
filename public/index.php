@@ -26,10 +26,10 @@ $app->cors();
 |
 */
 
-Route::post('/login', [UserController::class, 'index']);
+// Route::post('/login', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'store']);
-Route::post('/distance', [UserController::class, 'show']);
-Route::post('/auth', [AuthController::class, 'index']);
+// Route::post('/distance', [UserController::class, 'show']);
+// Route::post('/auth', [AuthController::class, 'index']);
 Route::get('/hello', [Hello::class, 'index']);
 
 $app->run();
