@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\config\Database;
+// use App\config\Database;
 use App\Http\Response;
 
 class Model
@@ -35,6 +35,7 @@ class Model
   public static function create(object $qq)
   {
     echo 'aezeze';
+    $x = new \App\Config\Database();
     // $db = new Database();
     // $dbh = $db->connect();
     // $table = strtolower(substr(strrchr(get_called_class(), "\\"), 1));
