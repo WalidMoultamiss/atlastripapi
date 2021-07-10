@@ -33,5 +33,6 @@ Route::post('/login', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/distance', [UserController::class, 'show']);
 Route::post('/auth', [AuthController::class, 'index']);
+Route::post('/sos', [UserController::class, 'sos']);
 
 $app->run();
