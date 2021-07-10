@@ -103,6 +103,6 @@ class UserController extends Controller
   public static function sos(Request $request)
   {
     $sos = $request->json();
-    // \App\Models\Sos::create();
+    \App\Models\Sos::create($sos);
   }
 }
