@@ -26,7 +26,6 @@ class UserController extends Controller
     ];
 
     $middle = (object) $middleware->validate($user, $rules);
-    print_r([$middle->password, $userFind[0]['password']]);
 
     if ($middle->error) {
       Response::json($middle);
@@ -35,7 +34,7 @@ class UserController extends Controller
         return Response::json(["message" => "Email Not Found"]);
       } else {
         echo "aeaeea";
-        if (password_hash($middle->password, $userFind[0]['password'])) {
+        if (password_hash($user->password, $userFind[0]['password'])) {
           unset($userFind[0]['password']);
           $response = \App\Http\Middleware\Auth::create($userFind[0]);
           $response->dd = $userFind[0];
