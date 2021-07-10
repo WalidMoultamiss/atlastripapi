@@ -19,6 +19,8 @@ class SosController extends Controller
   public static function destroy(Request $request)
   {
     $sos = $request->json();
-    Response::json($sos);
+    $sql = "DELETE FROM sos where user_id = $sos->user_id;";
+    \App\Models\Sos::deleteByQuery($sql);
+    Response::json(["message" => "SOS cancelled"]);
   }
 }

@@ -30,6 +30,12 @@ class Model
     return $sth->fetchAll();
   }
 
+  public static function deleteByQuery($q)
+  {
+    $dbh = (new \App\Config\Database())->connect();
+    $dbh->prepare($q)->execute();
+  }
+
   public static function create(object $qq)
   {
     $dbh = (new \App\Config\Database())->connect();
