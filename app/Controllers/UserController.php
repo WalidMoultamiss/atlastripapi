@@ -60,7 +60,7 @@ class UserController extends Controller
       "last_name" => "required|min:3|max:25",
       "email" => "required|email",
       "password" => "required",
-      "phone" => "required|integer|min:9"
+      "phone" => "required|min:9"
     ];
 
     $middle = (object) $middleware->validate($user, $rules);
