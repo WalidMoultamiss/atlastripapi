@@ -26,27 +26,27 @@ class UserController extends Controller
     ];
 
     $middle = (object) $middleware->validate($user, $rules);
-    print_r([$user->password, $userFind[0]['password']]);
 
     if ($middle->error) {
       Response::json($middle);
     } else {
       if (!count($userFind)) {
         return Response::json(["message" => "Email Not Found"]);
-      } else {
-        echo "1";
-        Response::json(password_hash($user->password, $userFind[0]['password']));
-        if (password_hash($user->password, $userFind[0]['password'])) {
-          echo "2";
-          unset($userFind[0]['password']);
-          $response = \App\Http\Middleware\Auth::create($userFind[0]);
-          $response->dd = $userFind[0];
-          print_r($response);
-          Response::json($response);
-        } else {
-          Response::json(["message" => "password incorrect"]);
-        }
       }
+      var_dump(password_hash($user->password, $userFind[0]['password']));
+      echo "1";
+      if (password_hash($user->password, $userFind[0]['password'])) {
+        echo "2";
+        unset($userFind[0]['password']);
+        $response = \App\Http\Middleware\Auth::create($userFind[0]);
+        $response->dd = $userFind[0];
+        print_r($response);
+        Response::json($response);
+      } else {
+        echo "3";
+        Response::json(["message" => "password incorrect"]);
+      }
+      echo "4";
     }
   }
 
