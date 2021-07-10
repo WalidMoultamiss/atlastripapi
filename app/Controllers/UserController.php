@@ -33,6 +33,7 @@ class UserController extends Controller
       if (!count($userFind)) {
         return Response::json(["message" => "Email Not Found"]);
       }
+      var_dump($userFind);
       var_dump(password_hash($user->password, $userFind[0]['password']));
       echo "1";
       if (password_hash($user->password, $userFind[0]['password'])) {
