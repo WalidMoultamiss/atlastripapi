@@ -36,6 +36,6 @@ Route::post('/distance', [UserController::class, 'show']);
 Route::post('/auth', [AuthController::class, 'index']);
 
 Route::post('/sos', [SosController::class, 'store']);
-Route::delete('/sos', [SosController::class, 'destroy']);
+Route::post('/dsos', [SosController::class, 'destroy']);
 
 $app->run();
