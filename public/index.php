@@ -3,6 +3,7 @@
 use App\Application;
 use App\Controllers\AuthController;
 use App\Controllers\Hello;
+use App\Controllers\SosController;
 use App\Controllers\UserController;
 use App\Http\Request;
 use App\Http\Response;
@@ -33,6 +34,8 @@ Route::post('/login', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/distance', [UserController::class, 'show']);
 Route::post('/auth', [AuthController::class, 'index']);
-Route::post('/sos', [UserController::class, 'sos']);
+
+Route::post('/sos', [SosController::class, 'store']);
+Route::delete('/sos', [SosController::class, 'destroy']);
 
 $app->run();
