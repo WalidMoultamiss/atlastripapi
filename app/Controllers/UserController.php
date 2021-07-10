@@ -33,22 +33,15 @@ class UserController extends Controller
       if (!count($userFind)) {
         return Response::json(["message" => "Email Not Found"]);
       }
-      Response::json($userFind);
-      // var_dump($userFind);
-      // var_dump(password_hash($user->password, $userFind[0]['password']));
-      // echo "1";
+      unset($userFind[0]['password']);
+      $response = \App\Http\Middleware\Auth::create($userFind[0]);
+      $response->dd = $userFind[0];
+      Response::json($response);
       // if (password_hash($user->password, $userFind[0]['password'])) {
-      //   echo "2";
-      //   unset($userFind[0]['password']);
-      //   $response = \App\Http\Middleware\Auth::create($userFind[0]);
-      //   $response->dd = $userFind[0];
-      //   print_r($response);
       //   Response::json($response);
       // } else {
-      //   echo "3";
       //   Response::json(["message" => "password incorrect"]);
       // }
-      // echo "4";
     }
   }
 
